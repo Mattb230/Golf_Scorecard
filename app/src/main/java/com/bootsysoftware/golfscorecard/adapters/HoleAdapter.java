@@ -18,7 +18,7 @@ import com.bootsysoftware.golfscorecard.model.Hole;
 public class HoleAdapter extends BaseAdapter{
     private Context mContext;
     private Hole[] mHoles;
-    private static int mTotalStrokes;
+    //private static int mTotalStrokes;
 
 
     public HoleAdapter(Context context, Hole[] holes) {
@@ -65,30 +65,30 @@ public class HoleAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 int updatedStrokeCount = mHoles[position].getNumStrokes() - 1;
-                if(mHoles[position].getNumStrokes() > 0){
-                    mTotalStrokes--;
-                }
-                if (updatedStrokeCount < 0) updatedStrokeCount = 0;
-                if (mTotalStrokes < 0) mTotalStrokes = 0;
+                //if the current strokes are 0, don't subtract from total strokes if the user keeps
+                //pressing the "-" button
+                if(mHoles[position].getNumStrokes() > 0) Hole.removeStroke();
 
+                //if the updated count is less than 0, keep it as 0
+                if (updatedStrokeCount < 0) updatedStrokeCount = 0;
+                //update model
                 mHoles[position].setNumStrokes(updatedStrokeCount);
                 // Update views
                 holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
-                MainActivity.mNumberTotalStrokesLabel.setText(mTotalStrokes + "");
+                MainActivity.mNumberTotalStrokesLabel.setText(Hole.totalStrokes + "");
             }
         });
         holder.plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int updatedStrokeCount = mHoles[position].getNumStrokes() + 1;
-                mTotalStrokes++;
-                if (updatedStrokeCount < 0) updatedStrokeCount = 0;
-                if (mTotalStrokes < 0) mTotalStrokes = 0;
+                Hole.addStroke();
+                //update model
 
                 mHoles[position].setNumStrokes(updatedStrokeCount);
                 // Update views
                 holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
-                MainActivity.mNumberTotalStrokesLabel.setText(mTotalStrokes + "");
+                MainActivity.mNumberTotalStrokesLabel.setText(Hole.totalStrokes + "");
             }
         });
 
@@ -102,7 +102,4 @@ public class HoleAdapter extends BaseAdapter{
         Button plusButton;
     }
 
-    public static int getTotalStrokes(){
-        return mTotalStrokes;
-    }
 }

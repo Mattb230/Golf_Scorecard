@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bootsysoftware.golfscorecard.R;
 import com.bootsysoftware.golfscorecard.adapters.HoleAdapter;
@@ -23,11 +24,9 @@ public class MainActivity extends ListActivity {
 
     private static final String PREFS_FILE = "com.bootsysoftware.golfscorecard.preferences";
     private static final String KEY_STROKECOUNT = "KEY_STROKECOUNT";
-    private static final String KEY_TOTALSTROKES = "KEY_TOTALSTROKES";
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     HoleAdapter adapter;
-    public int totalStrokes = 0;
 
     //hold the hole objects
     private static Hole[] mHoles = new Hole[18];
@@ -35,17 +34,16 @@ public class MainActivity extends ListActivity {
     public static TextView mNumberTotalStrokesLabel;
     @BindView(android.R.id.list) ListView mListView;
     @BindView(android.R.id.empty) TextView mEmptyTextView;
-    //@BindView(R.id.numberTotalStrokesLabel) TextView mNumberTotalStrokesLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mNumberTotalStrokesLabel = (TextView) findViewById(R.id.numberTotalStrokesLabel);
 
         mSharedPreferences = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
-        mNumberTotalStrokesLabel = (TextView) findViewById(R.id.numberTotalStrokesLabel);
 
         //initialize the array of Hole objects
         populateHoles();
@@ -53,12 +51,6 @@ public class MainActivity extends ListActivity {
         adapter = new HoleAdapter(this, mHoles);
         mListView.setAdapter(adapter);
         mListView.setEmptyView(mEmptyTextView);
-
-
-
-        //mNumberTotalStrokesLabel.setText(mHoles[0].getTotalStrokes() + "");
-
-
     }
 
     @Override
@@ -68,18 +60,17 @@ public class MainActivity extends ListActivity {
         for(int i = 0; i < mHoles.length; i++){
             mEditor.putInt(KEY_STROKECOUNT + i, mHoles[i].getNumStrokes());
         }
-        mEditor.putInt(KEY_TOTALSTROKES, HoleAdapter.getTotalStrokes());
-        mEditor.apply();
+        mEditor.commit();
     }
 
+    // populate Hole objects and set the label for the TotalStrokes
     private void populateHoles() {
         int strokes = 0;
         for(int i = 0; i < mHoles.length; i++){
             strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, 0);
-                mHoles[i] = new Hole(i+1, strokes);
+            mHoles[i] = new Hole(i+1, strokes);
         }
-        totalStrokes = mSharedPreferences.getInt(KEY_TOTALSTROKES, 0);
-        mNumberTotalStrokesLabel.setText(totalStrokes + "");
+        mNumberTotalStrokesLabel.setText(Hole.totalStrokes + "");
     }//end populateHoles
 
     @Override
@@ -91,31 +82,20 @@ public class MainActivity extends ListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_clear_strokes) {
-            //clears all scores
-            mEditor.clear();
-            //applies the changes
-            mEditor.apply();
+            //clear out the editor, and reset values for numStrokes and totalStrokes
+            mEditor.clear().apply();
+
             for(Hole hole : mHoles){
                 hole.setNumStrokes(0);
             }
-            totalStrokes = 0;
-            mNumberTotalStrokesLabel.setText(totalStrokes + "");
+            Hole.resetStrokes();
+            mNumberTotalStrokesLabel.setText(Hole.totalStrokes + "");
             adapter.notifyDataSetChanged();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
-    }
-
-    public static int getHolesLength(){
-        return mHoles.length;
-    }
-
-}
+    }//end onOptionsItemSelected
+}//end class

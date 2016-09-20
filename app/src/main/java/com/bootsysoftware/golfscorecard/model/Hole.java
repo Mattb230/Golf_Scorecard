@@ -7,6 +7,8 @@ public class Hole {
     private int mHoleNumber;
     private int mNumStrokes;
 
+    public static int totalStrokes = 0;
+
     public Hole () {}
 
     public Hole(int holeNumber, int numStrokes) {
@@ -28,6 +30,16 @@ public class Hole {
 
     public void setNumStrokes(int numStrokes) {
         mNumStrokes = numStrokes;
+    }
+
+    public static void addStroke(){
+        totalStrokes++;
+    }
+    public static void removeStroke(){
+        totalStrokes--;
+    }
+    public static void resetStrokes(){
+        totalStrokes = 0;
     }
 
 }
