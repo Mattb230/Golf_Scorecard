@@ -30,10 +30,4 @@ public class Hole {
         mNumStrokes = numStrokes;
     }
 
-    public void addStroke(){
-        mNumStrokes++;
-    }
-    public void subtractStroke(){
-        mNumStrokes--;
-    }
 }

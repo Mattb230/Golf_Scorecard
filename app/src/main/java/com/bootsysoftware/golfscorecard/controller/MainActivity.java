@@ -23,15 +23,19 @@ public class MainActivity extends ListActivity {
 
     private static final String PREFS_FILE = "com.bootsysoftware.golfscorecard.preferences";
     private static final String KEY_STROKECOUNT = "KEY_STROKECOUNT";
+    private static final String KEY_TOTALSTROKES = "KEY_TOTALSTROKES";
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     HoleAdapter adapter;
+    public int totalStrokes = 0;
 
     //hold the hole objects
-    private Hole[] mHoles = new Hole[18];
+    private static Hole[] mHoles = new Hole[18];
     //bind views
+    public static TextView mNumberTotalStrokesLabel;
     @BindView(android.R.id.list) ListView mListView;
     @BindView(android.R.id.empty) TextView mEmptyTextView;
+    //@BindView(R.id.numberTotalStrokesLabel) TextView mNumberTotalStrokesLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class MainActivity extends ListActivity {
 
         mSharedPreferences = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
+        mNumberTotalStrokesLabel = (TextView) findViewById(R.id.numberTotalStrokesLabel);
 
         //initialize the array of Hole objects
         populateHoles();
@@ -48,6 +53,10 @@ public class MainActivity extends ListActivity {
         adapter = new HoleAdapter(this, mHoles);
         mListView.setAdapter(adapter);
         mListView.setEmptyView(mEmptyTextView);
+
+
+
+        //mNumberTotalStrokesLabel.setText(mHoles[0].getTotalStrokes() + "");
 
 
     }
@@ -59,18 +68,19 @@ public class MainActivity extends ListActivity {
         for(int i = 0; i < mHoles.length; i++){
             mEditor.putInt(KEY_STROKECOUNT + i, mHoles[i].getNumStrokes());
         }
+        mEditor.putInt(KEY_TOTALSTROKES, HoleAdapter.getTotalStrokes());
         mEditor.apply();
     }
 
     private void populateHoles() {
         int strokes = 0;
-       // mHoles = new Hole[17];
         for(int i = 0; i < mHoles.length; i++){
             strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, 0);
-            mHoles[i] = new Hole(i+1, strokes);
+                mHoles[i] = new Hole(i+1, strokes);
         }
-
-    }//end onPause
+        totalStrokes = mSharedPreferences.getInt(KEY_TOTALSTROKES, 0);
+        mNumberTotalStrokesLabel.setText(totalStrokes + "");
+    }//end populateHoles
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,11 +105,17 @@ public class MainActivity extends ListActivity {
             for(Hole hole : mHoles){
                 hole.setNumStrokes(0);
             }
+            totalStrokes = 0;
+            mNumberTotalStrokesLabel.setText(totalStrokes + "");
             adapter.notifyDataSetChanged();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static int getHolesLength(){
+        return mHoles.length;
     }
 
 }

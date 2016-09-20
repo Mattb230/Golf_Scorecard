@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bootsysoftware.golfscorecard.R;
+import com.bootsysoftware.golfscorecard.controller.MainActivity;
 import com.bootsysoftware.golfscorecard.model.Hole;
 
 /**
@@ -17,6 +18,8 @@ import com.bootsysoftware.golfscorecard.model.Hole;
 public class HoleAdapter extends BaseAdapter{
     private Context mContext;
     private Hole[] mHoles;
+    private static int mTotalStrokes;
+
 
     public HoleAdapter(Context context, Hole[] holes) {
         mContext = context;
@@ -56,29 +59,36 @@ public class HoleAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //Hole hole = mHoles[position];
         holder.holeNumberLabel.setText("Hole " + mHoles[position].getHoleNumber());
         holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
         holder.minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int updatedStrokeCount = mHoles[position].getNumStrokes() - 1;
-                if (updatedStrokeCount < 0){
-                    updatedStrokeCount = 0;
+                if(mHoles[position].getNumStrokes() > 0){
+                    mTotalStrokes--;
                 }
+                if (updatedStrokeCount < 0) updatedStrokeCount = 0;
+                if (mTotalStrokes < 0) mTotalStrokes = 0;
+
                 mHoles[position].setNumStrokes(updatedStrokeCount);
+                // Update views
                 holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
+                MainActivity.mNumberTotalStrokesLabel.setText(mTotalStrokes + "");
             }
         });
         holder.plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int updatedStrokeCount = mHoles[position].getNumStrokes() + 1;
-                if (updatedStrokeCount < 0){
-                    updatedStrokeCount = 0;
-                }
+                mTotalStrokes++;
+                if (updatedStrokeCount < 0) updatedStrokeCount = 0;
+                if (mTotalStrokes < 0) mTotalStrokes = 0;
+
                 mHoles[position].setNumStrokes(updatedStrokeCount);
+                // Update views
                 holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
+                MainActivity.mNumberTotalStrokesLabel.setText(mTotalStrokes + "");
             }
         });
 
@@ -90,5 +100,9 @@ public class HoleAdapter extends BaseAdapter{
         TextView numberOfstrokesLabel;
         Button minusButton;
         Button plusButton;
+    }
+
+    public static int getTotalStrokes(){
+        return mTotalStrokes;
     }
 }

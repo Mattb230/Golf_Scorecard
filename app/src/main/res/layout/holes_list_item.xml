@@ -14,7 +14,8 @@
         android:layout_centerVertical="true"
         android:textSize="18dp"
         tools:text="Hole 18"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:paddingLeft="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,7 +33,6 @@
         android:layout_height="wrap_content"
         android:text="-"
         android:id="@+id/minusButton"
-        android:layout_alignBottom="@+id/plusButton"
         android:layout_toLeftOf="@+id/plusButton"
         android:layout_toStartOf="@+id/plusButton"
         android:textColor="#ffffff"
