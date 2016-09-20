@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -23,6 +25,7 @@ public class MainActivity extends ListActivity {
     private static final String KEY_STROKECOUNT = "KEY_STROKECOUNT";
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    HoleAdapter adapter;
 
     //hold the hole objects
     private Hole[] mHoles = new Hole[18];
@@ -42,7 +45,7 @@ public class MainActivity extends ListActivity {
         //initialize the array of Hole objects
         populateHoles();
         //Create and set the my ListView to use my custom adapter
-        HoleAdapter adapter = new HoleAdapter(this, mHoles);
+        adapter = new HoleAdapter(this, mHoles);
         mListView.setAdapter(adapter);
         mListView.setEmptyView(mEmptyTextView);
 
@@ -67,6 +70,36 @@ public class MainActivity extends ListActivity {
             mHoles[i] = new Hole(i+1, strokes);
         }
 
+    }//end onPause
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_clear_strokes) {
+            //clears all scores
+            mEditor.clear();
+            //applies the changes
+            mEditor.apply();
+            for(Hole hole : mHoles){
+                hole.setNumStrokes(0);
+            }
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
