@@ -29,4 +29,11 @@ public class Hole {
     public void setNumStrokes(int numStrokes) {
         mNumStrokes = numStrokes;
     }
+
+    public void addStroke(){
+        mNumStrokes++;
+    }
+    public void subtractStroke(){
+        mNumStrokes--;
+    }
 }

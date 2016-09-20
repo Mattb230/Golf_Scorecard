@@ -1,7 +1,10 @@
 package com.bootsysoftware.golfscorecard.controller;
 
+import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,7 +15,7 @@ import com.bootsysoftware.golfscorecard.model.Hole;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ListActivity {
 
     //hold the hole objects
     private Hole[] mHoles = new Hole[18];
@@ -42,4 +45,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 }

@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:text="-"
         android:id="@+id/minusButton"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/plusButton"
+        android:layout_toLeftOf="@+id/plusButton"
+        android:layout_toStartOf="@+id/plusButton"
         android:textColor="#ffffff"
         android:background="#40ffffff"/>
 
@@ -44,9 +44,9 @@
         android:layout_height="wrap_content"
         android:text="+"
         android:id="@+id/plusButton"
-        android:layout_alignBottom="@+id/minusButton"
-        android:layout_toLeftOf="@+id/minusButton"
-        android:layout_toStartOf="@+id/minusButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:textColor="#ffffff"
         android:background="#40ffffff"/>
 

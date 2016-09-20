@@ -39,8 +39,8 @@ public class HoleAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
 
         //Check to see if this view is brand new. If it is, create everything and inflate
         if(convertView == null){
@@ -56,11 +56,32 @@ public class HoleAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Hole hole = mHoles[position];
-        holder.holeNumberLabel.setText("Hole " + hole.getHoleNumber());
-        holder.numberOfstrokesLabel.setText(hole.getNumStrokes() + "");
-        holder.minusButton.setText("-");
-        holder.plusButton.setText("+");
+        //Hole hole = mHoles[position];
+        holder.holeNumberLabel.setText("Hole " + mHoles[position].getHoleNumber());
+        holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
+        holder.minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int updatedStrokeCount = mHoles[position].getNumStrokes() - 1;
+                if (updatedStrokeCount < 0){
+                    updatedStrokeCount = 0;
+                }
+                mHoles[position].setNumStrokes(updatedStrokeCount);
+                holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
+            }
+        });
+        holder.plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int updatedStrokeCount = mHoles[position].getNumStrokes() + 1;
+                if (updatedStrokeCount < 0){
+                    updatedStrokeCount = 0;
+                }
+                mHoles[position].setNumStrokes(updatedStrokeCount);
+                holder.numberOfstrokesLabel.setText(mHoles[position].getNumStrokes() + "");
+            }
+        });
+
         return convertView;
     }
 
