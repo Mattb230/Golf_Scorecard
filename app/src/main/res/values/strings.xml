@@ -3,4 +3,7 @@
     <string name="no_data_to_display">No data to display =(</string>
     <string name="action_clear_strokes">Clear Strokes</string>
     <string name="total_strokes_label">Total Strokes:</string>
+    <string name="hole_label">Hole #</string>
+    <string name="strokes_label">Strokes:</string>
+    <string name="plusMinus_label">Minus/Plus</string>
 </resources>
