@@ -28,7 +28,8 @@
             android:paddingLeft="8dp"
             android:text="@string/hole_label"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +39,8 @@
             android:layout_centerVertical="true"
             android:textSize="18sp"
             android:textColor="#ffffff"
-            android:text="@string/strokes_label"/>
+            android:text="@string/strokes_label"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +51,8 @@
             android:textColor="#ffffff"
             android:text="@string/plusMinus_label"
             android:layout_alignParentRight="true"
-            android:paddingRight="6dp"/>
+            android:paddingRight="6dp"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
