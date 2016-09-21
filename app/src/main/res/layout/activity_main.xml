@@ -86,7 +86,8 @@
             android:paddingLeft="8dp"
             android:text="@string/total_strokes_label"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,7 +97,8 @@
             android:layout_centerVertical="true"
             tools:text="99"
             android:textSize="18sp"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
     </RelativeLayout>
 
 
