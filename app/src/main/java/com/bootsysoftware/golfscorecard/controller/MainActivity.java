@@ -66,10 +66,13 @@ public class MainActivity extends ListActivity {
     // populate Hole objects and set the label for the TotalStrokes
     private void populateHoles() {
         int strokes = 0;
+        int totalNumberOfStrokes = 0;
         for(int i = 0; i < mHoles.length; i++){
             strokes = mSharedPreferences.getInt(KEY_STROKECOUNT + i, 0);
             mHoles[i] = new Hole(i+1, strokes);
+            totalNumberOfStrokes += strokes;
         }
+        Hole.totalStrokes = totalNumberOfStrokes;
         mNumberTotalStrokesLabel.setText(Hole.totalStrokes + "");
     }//end populateHoles
 

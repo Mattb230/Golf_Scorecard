@@ -67,10 +67,13 @@ public class HoleAdapter extends BaseAdapter{
                 int updatedStrokeCount = mHoles[position].getNumStrokes() - 1;
                 //if the current strokes are 0, don't subtract from total strokes if the user keeps
                 //pressing the "-" button
-                if(mHoles[position].getNumStrokes() > 0) Hole.removeStroke();
+                if(mHoles[position].getNumStrokes() > 0){
+                    Hole.removeStroke();
+                }
 
                 //if the updated count is less than 0, keep it as 0
                 if (updatedStrokeCount < 0) updatedStrokeCount = 0;
+                if (Hole.totalStrokes < 0) Hole.totalStrokes = 0;
                 //update model
                 mHoles[position].setNumStrokes(updatedStrokeCount);
                 // Update views
