@@ -4,10 +4,10 @@ apply plugin: 'android-apt'
 android {
     signingConfigs {
         config {
-            keyAlias 'mattb230'
-            keyPassword 'mr0tsplease'
+            keyAlias ''
+            keyPassword ''
             storeFile file('C:/Users/USER/Documents/keystore.jks')
-            storePassword 'mr0tsplease'
+            storePassword ''
         }
     }
     compileSdkVersion 24
